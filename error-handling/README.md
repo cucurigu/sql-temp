@@ -14,7 +14,7 @@ A suitable error should be thrown.
 
 ### Pseudo-code 
 
-```
+```SQL
   -- Validate input if not null or empty
   -- if any required parameter is missing
   -- do not proceed any further
