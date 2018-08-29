@@ -1,6 +1,6 @@
 -- A Theory of Justice B1076544 --
 UPDATE dbo.Book
-SET Chapters = '<CHAPTERLIST xmlns="http://myChapters">
+   SET Chapters = '<CHAPTERLIST xmlns="http://myChapters">
 	<CHAPTER ChapNo="1">
 		<TITLE>Justice as Fairness</TITLE>
 		<SUMMARY>Overview of the main lines of the Theory of Justice</SUMMARY>
@@ -25,22 +25,23 @@ WHERE BookID = 'B1076544'
 -- -- -- -- -- -- -- -- --
 
 -- 1.
-WITH XMLNAMESPACES ('http://myChapters' AS CH)
+  WITH XMLNAMESPACES ('http://myChapters' AS CH)
 SELECT BookID, Title, Chapters.query('/CH:CHAPTERLIST/CH:CHAPTER/CH:REFERENCE') AS Chapters
-FROM dbo.Book
-WHERE Chapters.exist('/CH:CHAPTERLIST/CH:CHAPTER/CH:REFERENCE') = 1;
+  FROM dbo.Book
+ WHERE Chapters.exist('/CH:CHAPTERLIST/CH:CHAPTER/CH:REFERENCE') = 1;
 
 
 -- 2.
-WITH XMLNAMESPACES ('http://myChapters' AS CH)
+  WITH XMLNAMESPACES ('http://myChapters' AS CH)
 SELECT BookID, Title, Chapters.query('/CH:CHAPTERLIST/CH:CHAPTER[2]/CH:REFERENCE') AS Chapters
-FROM dbo.Book
-WHERE BookID = 'B1076543';
+  FROM dbo.Book
+ WHERE BookID = 'B1076543';
 
 -- 3.
-
-WITH XMLNAMESPACES ('http://myChapters' AS CH)
+  WITH XMLNAMESPACES ('http://myChapters' AS CH)
 SELECT b.BookID, b.Title, b2.reference.value('.', 'varchar(50)') AS Reference
-FROM dbo.Book AS b
-CROSS APPLY b.Chapters.nodes('/CH:CHAPTERLIST/CH:CHAPTER/CH:REFERENCE') AS b2(reference)
-WHERE b2.reference.value('.', 'varchar(50)') = 'Database Systems';
+  FROM dbo.Book AS b
+ CROSS APPLY b.Chapters.nodes('/CH:CHAPTERLIST/CH:CHAPTER/CH:REFERENCE') AS b2(reference)
+ WHERE b2.reference.value('.', 'varchar(50)') = 'Database Systems';
+
+ 
