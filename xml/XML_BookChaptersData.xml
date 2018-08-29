@@ -1,0 +1,77 @@
+-- Database Systems
+
+<CHAPTERLIST xmlns="http://myChapters">
+	<CHAPTER ChapNo="1">
+		<TITLE>Introduction to Databases</TITLE>
+		<SUMMARY>Core Concepts</SUMMARY>
+		<KEYWORD>DBMS</KEYWORD>
+		<KEYWORD>DDL</KEYWORD>
+		<KEYWORD>DML</KEYWORD>
+		<REFERENCE>SQL Server</REFERENCE>
+		<REFERENCE>Databases for Dummies</REFERENCE>
+	</CHAPTER>
+	<CHAPTER ChapNo="2">
+		<TITLE>Database Environment</TITLE>
+		<SUMMARY>Architecture and Core Components</SUMMARY>
+		<KEYWORD>Architecture</KEYWORD>
+		<KEYWORD>Model</KEYWORD>
+	</CHAPTER>
+	<CHAPTER ChapNo="3">
+		<TITLE>The Relational Model</TITLE>
+		<SUMMARY>Codd Knows</SUMMARY>
+		<KEYWORD>Algebra</KEYWORD>
+		<KEYWORD>Calculus</KEYWORD>
+	</CHAPTER>
+</CHAPTERLIST>
+
+-- Rawl's Collected Papers - B1076543
+
+<CHAPTERLIST xmlns="http://myChapters">
+	<CHAPTER ChapNo="1">
+		<TITLE>Outline of a Decision Procedure for Ethics</TITLE>
+		<SUMMARY>How to be good</SUMMARY>
+		<KEYWORD>Judgement</KEYWORD>
+		<KEYWORD>Reasonableness</KEYWORD>
+		<KEYWORD>DML</KEYWORD>
+	</CHAPTER>
+	<CHAPTER ChapNo="2">
+		<TITLE>Two Concepts of Rules</TITLE>
+		<SUMMARY>Differing approaches to rules in their creation and in their application</SUMMARY>
+		<KEYWORD>Rules</KEYWORD>
+		<KEYWORD>Practice</KEYWORD>
+		<REFERENCE>Utility</REFERENCE>
+		<REFERENCE>The Social Contrick</REFERENCE>
+		<REFERENCE>Leviathan</REFERENCE>
+	</CHAPTER>
+	<CHAPTER ChapNo="3">
+		<TITLE>Justice as Fairness</TITLE>
+		<SUMMARY>The first statement of the Theory of Justice</SUMMARY>
+		<KEYWORD>Justice</KEYWORD>
+		<KEYWORD>Fairness</KEYWORD>
+	</CHAPTER>
+</CHAPTERLIST>
+
+-- SQL Server B1043211
+
+<CHAPTERLIST xmlns="http://myChapters">
+	<CHAPTER ChapNo="1">
+		<TITLE>Objects in SQL</TITLE>
+		<SUMMARY>Review of the basics</SUMMARY>
+		<KEYWORD>Objects</KEYWORD>
+		<KEYWORD>Model</KEYWORD>
+		<REFERENCE>Database Systems</REFERENCE>
+		<REFERENCE>Databases for Dummies</REFERENCE>
+	</CHAPTER>
+	<CHAPTER ChapNo="2">
+		<TITLE>Tool Time</TITLE>
+		<SUMMARY>Utilities and Tools</SUMMARY>
+		<KEYWORD>Tools</KEYWORD>
+	</CHAPTER>
+	<CHAPTER ChapNo="3">
+		<TITLE>Basic T-SQL</TITLE>
+		<SUMMARY>SQL Commands</SUMMARY>
+		<KEYWORD>DML</KEYWORD>
+		<KEYWORD>SQL</KEYWORD>
+	</CHAPTER>
+</CHAPTERLIST>
+
