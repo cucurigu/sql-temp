@@ -1,11 +1,13 @@
--- 1. Select all students with a lower than average Exam mark, showing their name, ID and exam mark. -- ( To be revised )
+-- 1. Select all students with a lower than average Exam mark, showing their name, ID and exam mark. --
 
-SELECT sm.ExamMark,sm.StudentID
+SELECT sm.ExamMark,
+       sm.StudentID,
+       CONCAT(s.FirstName, ' ', s.Surname) AS FullName
   FROM dbo.StudentModule sm
   JOIN dbo.Student s on s.StudentID = sm.StudentID
- WHERE sm.ExamMark > (SELECT AVG(ExamMark) FROM dbo.StudentModule)
+WHERE sm.ExamMark < (SELECT AVG(ExamMark) FROM dbo.StudentModule)
 
--- 2. Show the lecturer(s) with the highest exam weighting for a module. -- ( To be revised )
+-- 2. Show the lecturer(s) with the highest exam weighting for a module. --
 
 SELECT m.ModuleConvenor, m.ModuleID, m.ExamWeight AS HighestExamWeight
   FROM dbo.Module m
@@ -22,7 +24,7 @@ SELECT c.*, sm.*, s.FirstName, s.Surname, s.StudentID
 
 -- 4. Show each lecturer’s lowest coursework weighting, displaying the Staff ID, the Module ID and the weighting selected. --
 
-SELECT MIN(m.CWWeight) AS CWWeight
+SELECT MIN(m.CWWeight) AS LowestCWWeight
      , m.ModuleConvenor AS StaffID
 	   , (SELECT mm.ModuleID
 	        FROM dbo.Module mm
