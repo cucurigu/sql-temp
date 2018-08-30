@@ -48,6 +48,14 @@ A suitable error should be thrown.
       , ERROR_LINE() AS ErrorLine
       , ERROR_MESSAGE() AS ErrorMessage;
       
+      RAISERROR(
+        ERROR_MESSAGE()
+      , ERROR_SEVERITY()
+      , ERROR_STATE()
+      ) WITH NOWAIT
+
+      --- THROW; -- we could just throw to the same effect...
+
       -- Rollback
       IF @@TRANCOUNT > 0
       ROLLBACK TRANSACTION;  -- Main transaction (failed)
