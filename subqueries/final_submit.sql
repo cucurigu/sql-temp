@@ -86,3 +86,59 @@ SELECT sc.StudentID
 -- 9. Complete the following:
 -- a. Write a query to show the IDs and Email addresses of all the Students and Lecturers, with the exception of all the students who are Excluded and those students and lecturers without email addresses.
 
+SELECT CONVERT(nvarchar, s.StudentID) AS ID,
+  s.Email
+FROM dbo.Student s
+WHERE s.StudentID IN (SELECT s2.StudentID FROM dbo.Student s2 WHERE s2.Excluded = '0' AND s2.email IS NOT NULL)
+UNION
+SELECT StaffID AS ID, email FROM dbo.Lecturer WHERE email IS NOT NULL
+
+-- b. Write a query to show the Module IDs and Module Descriptions of all modules that are on both the CS and CN (Computer Networking) course, other than those that are on the BS course (you will need to create relevant data to test this).
+INSERT INTO dbo.Course
+VALUES ('CN', 'Computer Networking', '021478P', 'T')
+
+INSERT INTO dbo.CourseModule VALUES
+  ('CN', 'CN2050'),
+  ('CN', 'CN2071'),
+  ('CS', 'CN2050')
+
+INSERT INTO dbo.Module VALUES
+  ('CN2050', 'Networking Concepts', '021478P', '50', '50'),
+  ('CN2071', 'Communications Engineering', '021478P', '30', '70')
+
+
+SELECT cm.*, m.ModuleDescription
+FROM dbo.CourseModule cm JOIN dbo.Module m ON m.ModuleID = cm.ModuleID
+WHERE m.ModuleID IN (
+  SELECT mm.ModuleID
+  FROM dbo.Module mm JOIN dbo.CourseModule cmm ON cmm.ModuleID = mm.ModuleID
+  GROUP BY mm.ModuleID
+  HAVING SUM(1) > 1)
+AND m.ModuleID NOT IN (
+SELECT mmm.ModuleID
+FROM dbo.CourseModule mmm JOIN dbo.CourseModule cmmm ON cmmm.ModuleID = mmm.ModuleID
+WHERE cmmm.CourseCode = 'BS');
+
+
+-- c. Create a temporary table, dbo.CompModule, and write a query to insert the rows returned by 9b above into it.
+
+CREATE TABLE dbo.CompModule (
+  CourseCode NVARCHAR(2),
+  ModuleID NVARCHAR(10),
+  ModuleDescription NVARCHAR(100)
+)
+
+INSERT INTO dbo.CompModule
+  SELECT cm.CourseCode, cm.ModuleID, ModuleDescription
+  FROM dbo.CourseModule cm JOIN dbo.Module m ON m.ModuleID = cm.ModuleID
+  WHERE m.ModuleID IN (
+    SELECT mm.ModuleID
+    FROM dbo.Module mm JOIN dbo.CourseModule cmm ON cmm.ModuleID = mm.ModuleID
+    GROUP BY mm.ModuleID
+    HAVING SUM(1) > 1)
+        AND m.ModuleID NOT IN (
+    SELECT mmm.ModuleID
+    FROM dbo.CourseModule mmm JOIN dbo.CourseModule cmmm ON cmmm.ModuleID = mmm.ModuleID
+    WHERE cmmm.CourseCode = 'BS')
+
+SELECT * FROM dbo.CompModule
