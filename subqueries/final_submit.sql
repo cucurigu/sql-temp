@@ -59,30 +59,18 @@ WHERE CourseCode = (SELECT CourseCode FROM dbo.CourseModule WHERE ModuleID IN ('
 GROUP BY CourseCode
 HAVING Count(*) = 2)
 
--- 8. Show all the students that have completed both BS and CS courses, displaying their ID’s, names and the date completed. Investigate the use of CONVERT to display the date completed in such a way that it only shows the date (UK style). -- 
-
--- (Only works if the dates are the same ?)
-
+-- 8. Show all the students that have completed both BS and CS courses, displaying their ID’s, names and the date completed. Investigate the use of CONVERT to display the date completed in such a way that it only shows the date (UK style). --
 
 SELECT sc.StudentID, s.FirstName, s.Surname, CONVERT(varchar, CONVERT(datetime, sc.DateCompleted) , 103) AS DateCompleted
 FROM dbo.StudentCourse sc
-JOIN dbo.Student s ON sc.StudentID = s.StudentID
+  JOIN dbo.Student s ON sc.StudentID = s.StudentID
 WHERE sc.CourseCode IN (SELECT c.CourseCode FROM dbo.Course c WHERE c.CourseCode IN ('BS','CS')) AND sc.StudentID IN (SELECT StudentID FROM dbo.StudentCourse
 GROUP BY StudentID
 HAVING SUM(1) > 1)
 GROUP BY sc.StudentID, s.FirstName, s.Surname, sc.DateCompleted
 
-
-SELECT sc.StudentID, s.FirstName
-	, s.Surname
-	, CONVERT(varchar, CONVERT(datetime, sc.DateCompleted) , 103) AS DateCompleted
-FROM dbo.StudentCourse sc
-JOIN dbo.Student s ON sc.StudentID = s.StudentID
-WHERE sc.CourseCode IN (SELECT c.CourseCode FROM dbo.Course c WHERE c.CourseCode IN('BS','CS'))
-GROUP BY sc.StudentID, s.FirstName, s.Surname, sc.DateCompleted
-HAVING SUM(1) > 1
-ORDER BY SUM(1) DESC
-
+-- 9. Complete the following:
+-- a. Write a query to show the IDs and Email addresses of all the Students and Lecturers, with the exception of all the students who are Excluded and those students and lecturers without email addresses.
 
 
 
