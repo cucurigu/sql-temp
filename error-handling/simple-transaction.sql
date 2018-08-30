@@ -16,20 +16,16 @@ BEGIN TRAN; -- Main transaction
 
   END TRY
   BEGIN CATCH -- MainCatch
-
-  SELECT
-    ERROR_NUMBER() AS ErrorNumber
-  , ERROR_SEVERITY() AS ErrorSeverity
-  , ERROR_STATE() AS ErrorState
-  , ERROR_PROCEDURE() AS ErrorProcedure
-  , ERROR_LINE() AS ErrorLine
-  , ERROR_MESSAGE() AS ErrorMessage;
-
+   
     IF @@TRANCOUNT > 0
     ROLLBACK TRAN;  -- Main transaction (failed)
+      
+	THROW; -- introduced in MS SQL Server 2012
 
   END CATCH;
 
+
 IF @@TRANCOUNT > 0
   COMMIT TRAN;  -- Main transaction (pass)
+
 
