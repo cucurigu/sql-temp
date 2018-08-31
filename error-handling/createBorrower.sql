@@ -135,8 +135,6 @@ IF @validAll = 'TTTTTTTTT' BEGIN -- Check if something wasn't valid.
   SET @InputParamsValid = 'T'
 END
 
-SELECT @validAll AS CompoundScore;
-
 -- CAUTION: Genre(s) validation is based on one-at-the-time
 -- and RAISERROR without interrupting the flow
 
