@@ -182,6 +182,10 @@ BEGIN TRAN; -- Main transaction
         -- Populating the actual table.
         INSERT INTO dbo.BorrowerGenre
         SELECT @BorrowerID as BorrowerID, g.GenreID FROM #tmp_table_split AS tmp JOIN dbo.Genre g on tmp.GenreID = g.GenreDescription -- validates genres.
+        -- Picking Genre(s) passed as parameter that do not exist
+        SELECT temp.name AS InvalidGenre
+          FROM #tmp_table_split temp 
+         WHERE temp.name NOT IN (SELECT GenreDescription FROM dbo.Genre);
 
   END TRY
   BEGIN CATCH -- MainCatch
