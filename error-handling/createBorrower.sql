@@ -92,21 +92,30 @@ SET @validBorrowerTelNo = (SELECT CASE WHEN LEN(@validBorrowerTelNo) > 0 AND @Bo
 -- 1/ For non Academic it is always valid and value of the discount is zeroed
 -- 2/ Academic borrowers can have discount within range of 1-30
 
-SET @validBorrowerDiscount = (SELECT CASE WHEN @BorrowerStatus != 'Academic' -- 1/
-  THEN 'T'
-  ELSE 'F'
-  END);
-
 -- we overload value but only for Academic -- 2/
+
+IF @BorrowerStatus != 'Academic' THEN
+   SET @validBorrowerDiscount = 'T';
+ELSE
+   IF (@BorrowerDiscount > 0 AND @BorrowerDiscount < 31) THEN
+   ELSE
+      
+
+ENDIF
+
 SET @validBorrowerDiscount = (SELECT CASE WHEN @BorrowerStatus = 'Academic' AND @BorrowerDiscount BETWEEN 1 AND 30
   THEN 'T'
   ELSE 'F'
   END);
 
+SELECT @BorrowerStatus AS PassedType, @validBorrowerDiscount AS StatusNow;
+
 SET @validBorrowerStatus = (SELECT CASE WHEN @BorrowerStatus != 'Academic' AND @BorrowerStatus != 'Business' AND @BorrowerStatus != ''
   THEN 'F'
-  ELSE 'T'
+  ELSE 'X'
   END);
+
+SELECT @BorrowerStatus AS PassedType, @validBorrowerDiscount AS StatusNow;
 
 SET @validBorrowerEmail = (SELECT CASE WHEN @BorrowerEmail LIKE '%_@_%_.__%'
   THEN 'T'
