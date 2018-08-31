@@ -21,8 +21,15 @@ BEGIN TRAN; -- Main transaction
       THROW 99005, 'BorrowerID does not exist.', 1;
     END
 
-    INSERT INTO OrganisationalBorrower (BorrowerID, AccountDeptAddress)
-    VALUES (@myBorrowerID, @myAccountDeptAddress);
+    IF (SELECT COUNT(*) FROM OrganisationalBorrower WHERE BorrowerID = @myBorrowerID) > 0 BEGIN
+        UPDATE OrganisationalBorrower
+           SET AccountsDeptAddress = @myAccountDeptAddress
+         WHERE BorrowerID = @myBorrowerID;
+      END
+    ELSE BEGIN
+        INSERT INTO OrganisationalBorrower (BorrowerID, AccountsDeptAddress)
+        VALUES (@myBorrowerID, @myAccountDeptAddress);
+      END
 
   END TRY
   BEGIN CATCH -- MainCatch: all other errors (exception grade) are picked up here, too
