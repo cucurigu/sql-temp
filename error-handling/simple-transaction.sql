@@ -1,7 +1,28 @@
+
+-- (A) Validate input
+--     on FAIL do RAISEERROR and interrupt execution with RETURN
+
+-- (B) Decide if @InsertBorrowerGenre = 'Y'
+--     just set the flag for later
+
+-- (C) We are entering main transaction now...
+
 BEGIN TRAN; -- Main transaction
 
   BEGIN TRY
 
+    -- (1) Insert borrower
+
+    -- (2) Insert relation to Academic|Business|NULL*
+    --     *) Plain
+
+    -- (3) If flag @InsertBorrowerGenre = 'Y'
+    --     then insert Genre related
+
+
+
+
+  -- @TODO: REMOVE below code needs replacing
   SELECT 'This will not fail' AS message;
 
   INSERT INTO dbo.Borrower
@@ -13,6 +34,8 @@ BEGIN TRAN; -- Main transaction
     (BorrowerID, BorrowerFName, BorrowerLName, BorrowerAddress, BorrowerTelNo, BorrowerEmail)
   VALUES
     ('BR111111', 'Greg', 'Len', '123 Road Street', '0712 821 821', 'greg@email.com') --//---         dodgy
+  -- @TODO: /REMOVE End of dummie code
+
 
   END TRY
   BEGIN CATCH -- MainCatch
@@ -20,12 +43,12 @@ BEGIN TRAN; -- Main transaction
     IF @@TRANCOUNT > 0
     ROLLBACK TRAN;  -- Main transaction (failed)
       
-	THROW; -- introduced in MS SQL Server 2012
+	THROW;  -- introduced in MS SQL Server 2012
+	RETURN; -- procedure interrupted
 
   END CATCH;
 
-
 IF @@TRANCOUNT > 0
   COMMIT TRAN;  -- Main transaction (pass)
-
+                -- nothing was picked up in TRY / CATCH block
 
