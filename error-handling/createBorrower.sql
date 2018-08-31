@@ -191,7 +191,7 @@ BEGIN TRAN; -- Main transaction
 
         SET @InvalidInputGenres = CONCAT(
           '',
-          TRIM(SELECT tt.GenreID + ', ' AS [text()]
+          (SELECT tt.GenreID + ', ' AS [text()]
                  FROM #tmp_table_split tt
                 WHERE tt.GenreID NOT IN (SELECT GenreDescription FROM dbo.Genre)
              ORDER BY tt.GenreID
@@ -205,7 +205,6 @@ BEGIN TRAN; -- Main transaction
             1,
             1
           );
-        SELECT @InvalidInputGenres;
         END
 
   END TRY
