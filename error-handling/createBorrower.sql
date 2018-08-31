@@ -198,7 +198,7 @@ BEGIN TRAN; -- Main transaction
                   FOR XML PATH (''))
         );
 
-        IF LEN(@InvalidInputGenres) >0 BEGIN -- Just RAISEERROR do not stop the flow
+        IF LEN(@InvalidInputGenres) > 0 BEGIN -- Just RAISEERROR do not stop the flow
           SET @InvalidInputGenres = CONCAT('Following Genre(s) passed do NOT exist: ', @InvalidInputGenres);
           RAISERROR(
             @InvalidInputGenres,
