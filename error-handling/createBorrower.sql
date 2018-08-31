@@ -105,8 +105,6 @@ ELSE IF (@BorrowerStatus = 'Academic')
       END
   END
 
-SELECT @BorrowerStatus AS PassedType, @validBorrowerDiscount AS StatusNow;
-
 SET @validBorrowerEmail = (SELECT CASE WHEN @BorrowerEmail LIKE '%_@_%_.__%'
   THEN 'T'
   ELSE 'F'
