@@ -23,6 +23,9 @@ BEGIN TRAN; -- Main transaction
 
 
   -- @TODO: REMOVE below code needs replacing
+
+  THROW 9001, 'Failed before any other line of code got executed.', 1;
+
   SELECT 'This will not fail' AS message;
 
   INSERT INTO dbo.Borrower
