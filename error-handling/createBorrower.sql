@@ -81,7 +81,12 @@ SET @validBorrowerAddress = (SELECT CASE WHEN LEN(@validBorrowerAddress) > 0 AND
   ELSE 'F'
   END);
 
-SET @validBorrowerTelNo = (SELECT CASE WHEN LEN(@validBorrowerTelNo) > 0 AND @BorrowerTelNo NOT LIKE '%[^0-9 +]%' 
+SET @validBorrowerTelNo = (SELECT CASE WHEN LEN(@validBorrowerTelNo) > 0 AND @BorrowerTelNo NOT LIKE '%[^0-9 +]%'
+  THEN 'T'
+  ELSE 'F'
+  END);
+
+SET @validBorrowerDiscount = (SELECT CASE WHEN @BorrowerStatus = 'Academic' AND @BorrowerDiscount BETWEEN 1 AND 30
   THEN 'T'
   ELSE 'F'
   END);
