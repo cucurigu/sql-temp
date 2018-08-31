@@ -1,6 +1,6 @@
 
 -- (A) Validate input
---     on FAIL do RAISEERROR and interrupt execution with RETURN
+--     on FAIL do set @InputParamsValid = 'F'
 
 -- (B) Decide if @InsertBorrowerGenre = 'Y'
 --     just set the flag for later
@@ -24,7 +24,8 @@ BEGIN TRAN; -- Main transaction
 
   -- @TODO: REMOVE below code needs replacing
 
-  THROW 9001, 'Failed before any other line of code got executed.', 1;
+  -- if @InputParamsValid = 'F' then
+  -- THROW 9001, 'Invalid input parameters passed to the procedure.', 1;
 
   SELECT 'This will not fail' AS message;
 
