@@ -185,9 +185,15 @@ BEGIN TRAN; -- Main transaction
         INSERT INTO dbo.BorrowerGenre
         SELECT @BorrowerID as BorrowerID, g.GenreID FROM #tmp_table_split AS tmp JOIN dbo.Genre g on tmp.GenreID = g.GenreDescription -- validates genres.
         -- Picking Genre(s) passed as parameter that do not exist
-        SELECT tt.GenreID as InvalidGenre
+        -- SELECT tt.GenreID as InvalidGenre
+        --  FROM #tmp_table_split tt
+        -- WHERE tt.GenreID NOT IN (SELECT GenreDescription FROM dbo.Genre);
+
+        SELECT tt.GenreID + ',' AS [text()]
           FROM #tmp_table_split tt
-         WHERE tt.GenreID NOT IN (SELECT GenreDescription FROM dbo.Genre);
+         WHERE tt.GenreID NOT IN (SELECT GenreDescription FROM dbo.Genre)
+         ORDER BY tt.GenreID
+           FOR XML PATH ('');
 
   END TRY
   BEGIN CATCH -- MainCatch
