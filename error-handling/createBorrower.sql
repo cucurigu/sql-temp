@@ -189,11 +189,16 @@ BEGIN TRAN; -- Main transaction
         --  FROM #tmp_table_split tt
         -- WHERE tt.GenreID NOT IN (SELECT GenreDescription FROM dbo.Genre);
 
-        SELECT tt.GenreID + ',' AS [text()]
-          FROM #tmp_table_split tt
-         WHERE tt.GenreID NOT IN (SELECT GenreDescription FROM dbo.Genre)
+        SET @InvalidInputGenres = CONCAT(
+          '',
+          (SELECT tt.GenreID + ',' AS [text()]
+             FROM #tmp_table_split tt
+            WHERE tt.GenreID NOT IN (SELECT GenreDescription FROM dbo.Genre)
          ORDER BY tt.GenreID
-           FOR XML PATH ('');
+              FOR XML PATH (''))
+        );
+
+        SELECT @InvalidInputGenres;
 
   END TRY
   BEGIN CATCH -- MainCatch
