@@ -191,13 +191,20 @@ BEGIN TRAN; -- Main transaction
 
         SET @InvalidInputGenres = CONCAT(
           '',
-          (SELECT tt.GenreID + ',' AS [text()]
-             FROM #tmp_table_split tt
-            WHERE tt.GenreID NOT IN (SELECT GenreDescription FROM dbo.Genre)
-         ORDER BY tt.GenreID
-              FOR XML PATH (''))
+          TRIM(SELECT tt.GenreID + ', ' AS [text()]
+                 FROM #tmp_table_split tt
+                WHERE tt.GenreID NOT IN (SELECT GenreDescription FROM dbo.Genre)
+             ORDER BY tt.GenreID
+                  FOR XML PATH (''))
         );
 
+        IF LEN(@InvalidInputGenres) >0 BEGIN -- Just RAISEERROR do not stop the flow
+        END
+          RAISERROR(
+            CONCAT('Following Genre(s) passed do NOT exist: ', @InvalidInputGenres),
+            1,
+            1
+          );
         SELECT @InvalidInputGenres;
 
   END TRY
