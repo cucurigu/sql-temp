@@ -144,7 +144,7 @@ BEGIN TRAN; -- Main transaction
         END
 
     -- (1) Insert borrower
-    /*
+    
       IF EXISTS (SELECT BorrowerID FROM dbo.Borrower WHERE BorrowerID = @BorrowerID) BEGIN
         THROW 90002, 'This BorrowerID is already in use.', 1;
       END
@@ -154,7 +154,7 @@ BEGIN TRAN; -- Main transaction
         VALUES
           (@BorrowerID, @BorrowerFName, @BorrowerLName, @BorrowerAddress, @BorrowerTelNo, @BorrowerEmail)
       END
-    */
+
     -- (2) Insert relation to Academic|Business|NULL*
     --     *) Plain
 
