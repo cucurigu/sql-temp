@@ -9,8 +9,8 @@
 -- Other errors associated with the relevant tables should also be trapped
 
 DECLARE @myBorrowerID NVARCHAR(8);
-DECLARE @myAccountDeptAddress NVARCHAR(8);
-SET @myBorrowerID = 'BR333333';
+DECLARE @myBorrowerID NVARCHAR(8);
+SET @myBorrowerID = 'BR912345';
 SET @myAccountDeptAddress = '90210 Hollywood Blvd., L.A.';
 
 BEGIN TRAN; -- Main transaction
