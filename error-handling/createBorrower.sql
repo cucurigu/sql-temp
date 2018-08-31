@@ -34,8 +34,10 @@ DECLARE @validBorrowerDiscount NVARCHAR(1);
 DECLARE @validBorrowerGenres NVARCHAR(1);
 
 /*** validation statuses ***/
+DECLARE @InvalidInputGenres NVARCHAR(200)
 DECLARE @InputParamsValid NVARCHAR(1);
 SET @InputParamsValid = 'F';
+
 
 /*** null to empty strings or default value where allowed ***/
 SET @BorrowerID = ISNULL(@BorrowerID, '');
@@ -183,9 +185,9 @@ BEGIN TRAN; -- Main transaction
         INSERT INTO dbo.BorrowerGenre
         SELECT @BorrowerID as BorrowerID, g.GenreID FROM #tmp_table_split AS tmp JOIN dbo.Genre g on tmp.GenreID = g.GenreDescription -- validates genres.
         -- Picking Genre(s) passed as parameter that do not exist
-        SELECT temp.name AS InvalidGenre
-          FROM #tmp_table_split temp 
-         WHERE temp.name NOT IN (SELECT GenreDescription FROM dbo.Genre);
+        SELECT tt.GenreID as InvalidGenre
+          FROM #tmp_table_split tt
+         WHERE tt.GenreID NOT IN (SELECT GenreDescription FROM dbo.Genre);
 
   END TRY
   BEGIN CATCH -- MainCatch
