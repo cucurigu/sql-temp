@@ -8,7 +8,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[createBorrower] (
+ALTER PROCEDURE [dbo].[createBorrower] (
     @BorrowerID NVARCHAR(10),
     @BorrowerFName NVARCHAR(100),
     @BorrowerLName NVARCHAR(100),
@@ -48,14 +48,14 @@ SET @BorrowerDiscount = ISNULL(@BorrowerDiscount, 0);
 
 /*** set default to F - false in case any of the validations is skipped ***/
 SET @validBorrowerID = 'T'; --
-SET @validBorrowerFName = 'T'; -- @TODO: Validator required
-SET @validBorrowerLName = 'T';
-SET @validBorrowerAddress = 'T';
-SET @validBorrowerTelNo = 'T';
+SET @validBorrowerFName = 'T'; -- @TODO: Alphanumerics with dash NOT empty.
+SET @validBorrowerLName = 'T'; -- @TODO: Alphanumerics with dash NOT empty.
+SET @validBorrowerAddress = 'T'; -- @TODO: Alphanumerics and spaces, and commas NOT empty.
+SET @validBorrowerTelNo = 'T'; -- @TODO: Numerics optionaly +
 SET @validBorrowerEmail = 'T'; --
 SET @validBorrowerStatus = 'T'; --
-SET @validBorrowerDiscount = 'T';
-SET @validBorrowerGenres = 'T';
+SET @validBorrowerDiscount = 'T'; -- @TODO: Driven by Academics status only value range (0-30), follows constraints from dbo.AcademicBorrower
+SET @validBorrowerGenres = 'T'; -- Validation is deligated to temp table highlighting genres invalid, but without interruption of the flow.
 
 /*** compound validation result ***/
 DECLARE @validAll NVARCHAR(9); /*** TTTTTTTTT (valid) or else TTFTFFTT (invalid) ***/
@@ -66,9 +66,24 @@ SET @validBorrowerID = (SELECT CASE WHEN LEN(@BorrowerID) < 1
   ELSE 'T'
   END);
 
-SET @validBorrowerID = (SELECT CASE WHEN LEN(@BorrowerID) < 1
-  THEN 'F'
-  ELSE 'T'
+SET @validBorrowerFName = (SELECT CASE WHEN LEN(@BorrowerFName) > 0 AND @BorrowerFName NOT LIKE '%[^A-Za-z-]%'
+  THEN 'T'
+  ELSE 'F'
+  END);
+
+SET @validBorrowerLName = (SELECT CASE WHEN LEN(@validBorrowerLName) > 0 AND @BorrowerLName NOT LIKE '%[^A-Za-z-]%'
+  THEN 'T'
+  ELSE 'F'
+  END);
+
+SET @validBorrowerAddress = (SELECT CASE WHEN LEN(@validBorrowerAddress) > 0 AND @BorrowerAddress NOT LIKE '%[^0-9a-zA-Z ,]%'
+  THEN 'T'
+  ELSE 'F'
+  END);
+
+SET @validBorrowerTelNo = (SELECT CASE WHEN LEN(@validBorrowerTelNo) > 0 AND @BorrowerTelNo NOT LIKE '%[^0-9 +]%' 
+  THEN 'T'
+  ELSE 'F'
   END);
 
 SET @validBorrowerStatus = (SELECT CASE WHEN @BorrowerStatus != 'Academic' AND @BorrowerStatus != 'Business' AND @BorrowerStatus != ''
@@ -124,7 +139,7 @@ BEGIN TRAN; -- Main transaction
         END
 
     -- (1) Insert borrower
-
+    /*
       IF EXISTS (SELECT BorrowerID FROM dbo.Borrower WHERE BorrowerID = @BorrowerID) BEGIN
         THROW 90002, 'This BorrowerID is already in use.', 1;
       END
@@ -134,7 +149,7 @@ BEGIN TRAN; -- Main transaction
         VALUES
           (@BorrowerID, @BorrowerFName, @BorrowerLName, @BorrowerAddress, @BorrowerTelNo, @BorrowerEmail)
       END
-
+    */
     -- (2) Insert relation to Academic|Business|NULL*
     --     *) Plain
 
