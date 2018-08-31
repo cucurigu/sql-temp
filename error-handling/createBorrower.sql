@@ -199,13 +199,14 @@ BEGIN TRAN; -- Main transaction
         );
 
         IF LEN(@InvalidInputGenres) >0 BEGIN -- Just RAISEERROR do not stop the flow
-        END
+          SET @InvalidInputGenres = CONCAT('Following Genre(s) passed do NOT exist: ', @InvalidInputGenres);
           RAISERROR(
-            CONCAT('Following Genre(s) passed do NOT exist: ', @InvalidInputGenres),
+            @InvalidInputGenres,
             1,
             1
           );
         SELECT @InvalidInputGenres;
+        END
 
   END TRY
   BEGIN CATCH -- MainCatch
