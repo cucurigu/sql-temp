@@ -1,3 +1,7 @@
+-- TEST CASES (please install procedure before running the tests)
+-- Below a couple of cases showing PASS/FAIL test scenario
+-- I prepared two for each major type Academic, Business and Ordinary
+
 -- Academic : Pass
 EXEC dbo.createBorrower 'BR123456', 'Greg', 'Len' ,'123 Street Road', '0781 982 981', 'greg@email.com', 'Academic', '5', 'Fiction'
 
