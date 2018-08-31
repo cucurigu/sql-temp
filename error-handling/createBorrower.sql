@@ -56,7 +56,7 @@ SET @validBorrowerAddress = 'T'; -- @TODO: Alphanumerics and spaces, and commas 
 SET @validBorrowerTelNo = 'T'; -- @TODO: Numerics optionaly +
 SET @validBorrowerEmail = 'T'; --
 SET @validBorrowerStatus = 'T'; --
-SET @validBorrowerDiscount = 'T'; -- @TODO: Driven by Academics status only value range (0-30), follows constraints from dbo.AcademicBorrower
+SET @validBorrowerDiscount = 'F'; -- @TODO: Driven by Academics status only value range (0-30), follows constraints from dbo.AcademicBorrower
 SET @validBorrowerGenres = 'T'; -- Validation is deligated to temp table highlighting genres invalid, but without interruption of the flow.
 
 /*** compound validation result ***/
@@ -99,7 +99,7 @@ IF (@BorrowerStatus != 'Academic')
   END
 ELSE IF (@BorrowerStatus = 'Academic')
   BEGIN
-    IF (@BorrowerDiscount > 0 AND @BorrowerDiscount < 31)
+    IF ( CAST(@BorrowerDiscount AS int) > 0 AND CAST(@BorrowerDiscount AS int) < 31)
       BEGIN
         SET @validBorrowerDiscount = 'T';
       END
@@ -134,6 +134,8 @@ SET @validAll = CONCAT(
 IF @validAll = 'TTTTTTTTT' BEGIN -- Check if something wasn't valid.
   SET @InputParamsValid = 'T'
 END
+
+SELECT @validAll AS CompoundScore;
 
 -- CAUTION: Genre(s) validation is based on one-at-the-time
 -- and RAISERROR without interrupting the flow
